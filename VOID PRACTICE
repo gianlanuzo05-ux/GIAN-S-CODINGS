@@ -1,0 +1,246 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void Home(),clear();
+void History(),h_con();
+void Personal_info(),q_con();
+void quiz(),s_con();
+
+int main() {
+	
+	Home();
+	
+	return 0;
+}
+
+void Home() {
+	int choice;
+	
+	do {
+	
+	
+	cout << "\n==========MY COMPILATION CODE============\n";
+	cout << "Press 1 to check the history of C++\n";
+	cout << "Press 2 to put your Personal Information\n";
+	cout << "Press 3 to answer the Quiz\n";
+	cout << "Press 4 to Exit\n";
+	cout << "Enter your choice: ";
+	cin >> choice;
+	
+	switch(choice) {
+		case 1:
+			History();
+			break;
+			
+			case 2:
+				Personal_info();
+				break;
+				
+				case 3:
+					quiz();
+					break;
+					
+					case 4:
+						cout << "Thank You!\n";
+						break;
+						
+						default:
+							cout << "Invalid Choice!";
+	}
+	
+} while(choice != 4);
+	
+} 
+
+void History() {
+	cout << "The development of C++ actually began"  
+            " four years before its release, in 1979. It" 
+            "did not start with the name C++. Its first" 
+            "name was C with classes because it"
+            "introduces object-oriented programming"
+            " principles, including  the  use  of  defined" 
+            "classes, to the language framework.";
+}
+
+void Personal_info() {
+	string name, address, program;
+	string section, contact_Num;
+	int age;
+	
+	cin.ignore();
+		
+	cout << "Enter your Name: ";
+	getline(cin, name);
+	
+	cout << "Enter your Age: ";
+	cin >> age;
+	
+	cin.ignore();
+	
+	cout << "Enter your Address: ";
+	getline(cin, address);
+	
+	cout << "Enter your Program: ";
+	getline(cin, program);
+	
+	cout << "Enter your Section: ";
+	getline(cin, section);
+	
+	cout << "Enter your Contact Number: ";
+	getline(cin, contact_Num);
+	
+	cout << "\n=========MY PERSONAL INFORMATION==========\n";
+	cout << "Name          : " << name << "\n";
+	cout << "Age           : " << age << "\n";
+	cout << "Address       : " << address << "\n";
+	cout << "Program       : " << program << "\n";
+	cout << "Section       : " << section << "\n";
+	cout << "Contact Number: " << contact_Num << "\n";
+	cout << "==============================================";
+}
+
+void quiz() {
+	string name, section;
+	int item = 5;
+	int score;
+	int average;
+	char answer;
+	
+	score = 0;
+	
+	cin.ignore();
+		
+	cout << "Enter your Name: ";
+	getline(cin, name);
+		
+	cout << "Enter your Section: ";
+	getline(cin, section);
+	
+	cout << "\n===========FIRST QUIZ===========\n";
+	cout << "Read the questions carefully before answering. Choose the correct letter!\n";
+	
+	cout << "\nMultiple choice only\n";
+	cout << "\n==================ALL ABOUT C++================\n";
+	
+	cout << "1. What is the header file of C++?\n";
+	cout << "A. stdio.h\n";
+	cout << "B. string\n";
+	cout << "C. stdlib.h\n";
+	cout << "D. iostream\n";
+	
+	cout << "Enter your answer: ";
+	cin >> answer;
+	
+	if(answer == 'D' || answer == 'd') {
+		cout << "Correct!\n";
+		score++;
+	} else {
+		cout << "Wrong answer! the answer is D\n";
+	}
+	
+	cout << "2. Which data types storing 7 decimal digit?\n";
+	cout << "A. Boolean\n";
+	cout << "B. Float\n";
+	cout << "C. Double\n";
+	cout << "D. Int\n";
+	
+	cout << "Enter your answer: ";
+	cin >> answer;
+	
+	if(answer == 'B' || answer == 'b') {
+		cout << "Correct!\n";
+		score++;
+	} else {
+		cout << "Wrong answer! the answer is B\n";
+	}
+	
+	cout << "3. A person who created this language\n";
+	cout << "A. Bjarne Stroustrup\n";
+	cout << "B. Socrates\n";
+	cout << "C. Deniss Ritchie\n";
+	cout << "D. Vice Ganda\n";
+	
+	cout << "Enter your answer: ";
+	cin >> answer;
+	
+	if(answer ==  'A' || answer == 'a') {
+		cout << "Correct!\n";
+		score++;
+	} else {
+		cout << "Wrong answer! the answer is A\n";
+	}
+	
+	cout << "4. What data types storing 15 decimal digits?\n";
+	cout << "A. string\n";
+	cout << "B. int\n";
+	cout << "C. Double\n";
+	cout << "D. Float\n";
+	
+	cout << "Enter your answer: ";
+	cin >> answer;
+	
+	if(answer == 'C' || answer == 'c') {
+		cout << "Correct!\n";
+		score++;
+	} else {
+		cout << "Wrong answer! the answer is C\n";
+	}
+	
+	cout << "5. If a person doing codings, what a dog doing?\n";
+	cout << "A. Rene baterbonia\n";
+	cout << "B. Udana so batag\n";
+	cout << "C. Sheine Gooner\n";
+	cout << "D. All of the above\n";
+	
+	cout << "Enter your answer: ";
+	cin >> answer;
+	
+	if(answer == 'D' || answer == 'd') {
+		cout << "Correct!\n";
+		score++;
+	} else {
+		cout << "Wrong answer! the answer is D";
+	}
+	
+	
+	average = (score * 100) / item;
+	
+	
+	if(average >= 80) {
+		cout << "Well done! Outstanding Performance!\n";
+	}
+	else if(average >= 60) {
+		cout << "Good performance!\n";
+	}
+	else if(average >= 40) {
+		cout << "Keep it up!\n";
+	}
+	else if(average >= 20) {
+		cout << "Keep going!\n"; 
+	} else {
+		cout << "Review next to get high score!\n";
+	}
+	
+	if(score == item) {
+		cout << "Congratulations! You got perfect score!\n";
+	} else {
+		cout << "Study next time so you can got perfect score\n";
+	}
+	
+	cout << "\n============================================\n";
+	cout << "\n===============WELL DONE!===================\n";
+	cout << "\n============================================\n";
+	
+	cout << "Name   : " << name << "\n";
+	cout << "Section: " << section << "\n";
+	cout << "Score  : " << score << "/" << item << "\n";
+	cout << "Average: " << average << "\n";
+	cout << "============================================";
+	
+	
+}
+
+
+
