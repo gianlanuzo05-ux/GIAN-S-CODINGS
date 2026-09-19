@@ -1,0 +1,214 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Account {
+	string accountNum;
+	int pin;
+	double balance;
+};
+
+struct Transaction { 
+	string date; 
+	int amount;
+	int newPin, confirmPin;
+	string type;
+	double balance;
+};
+
+Account accounts[100] = {
+	{"54321", 26111, 50000},
+	{"12345", 25111, 60000},
+	{"01234", 27111, 40000},
+	{"11111", 28111, 30000},
+	{"22222", 29111, 20000}
+};
+
+int accountsCount = 5;
+
+Transaction transactions[100];
+int transactionsCount = 0;
+
+int currentAccount = -1;
+
+void CheckBalance();
+void Deposit();
+void Withdraw();
+void ViewTransactHistory();
+void ChangePin();
+
+int main() {
+	int choice;
+	string accountInput;
+	int pinInput;
+	
+	cout << "\n==============BANK ACCOUNT SYSTEM!===================\n";
+	cout << "Welcome to the Bank Account System!\n";
+	cout << "Please log in to continue.\n";
+	cout << "======================================================\n";
+	
+	cout << "Enter your Account Number: ";
+	getline(cin, accountInput);
+	
+	cout << "Enter your PIN: ";
+	cin >> pinInput;
+	
+	bool login = false;
+	
+	for(int i = 0; i < accountsCount; i++) {
+		
+		if(accounts[i].accountNum == accountInput && accounts[i].pin == pinInput) {
+			
+			login = true;
+			currentAccount = i;
+			break;
+		}
+	}
+	
+	if(login) {
+		
+		cout << "\nLogin Successfully!\n";
+		cout << "Welcome, Account " << accounts[currentAccount].accountNum << "!\n";
+		do {
+			cout << "\n=============DISPLAY MAIN MENU==================\n";
+			cout << "1. Check Balance\n";
+			cout << "2. Deposit\n";
+			cout << "3. Withdraw\n";
+			cout << "4. View Transaction History\n";
+			cout << "5. Change PIN\n";
+			cout << "6. Exit\n";
+			cout << "Enter your Choice: ";
+			cin >> choice;
+			
+			switch(choice) {
+				case 1:
+					CheckBalance();
+					break;
+					
+					case 2:
+						Deposit();
+						break;
+						
+						case 3:
+							Withdraw();
+							break;
+							
+							case 4:
+								ViewTransactHistory();
+								break;
+								
+								case 5:
+									ChangePin();
+									break;
+									
+									case 6:
+										cout << "Thank you for using Bank Account System!\n";
+										break;
+										
+										default:
+											cout << "Invalid Choice!!\n";
+			}
+		}while(choice != 6);
+	} else {
+		cout << "Invalid account number or PIN. Please try again.\n";
+	}
+}
+
+void CheckBalance() {
+	
+	cout << "\n=============CHECK YOUR BALANCE=================\n";
+	
+	cout << "The balance is: " << accounts[currentAccount].balance << "\n";
+	
+	transactions[transactionsCount].date = "09-07-2026";
+	transactions[transactionsCount].type = "Check Balance";
+	
+	transactionsCount++;
+}
+
+void Deposit() {
+	
+	cout << "\n=================DEPOSIT===================\n";
+	
+	cout << "Enter Amount you want to deposit: ";
+	cin >> transactions[transactionsCount].amount;
+	
+	if(transactions[transactionsCount].amount > 0) {
+		accounts[currentAccount].balance += transactions[transactionsCount].amount;
+		cout << "Successfully deposit!\n";
+	} else {
+		cout << "Invalid amount!\n";
+	}
+	
+	cout << "The balance is: " << accounts[currentAccount].balance << "\n";
+	
+	transactions[transactionsCount].date = "09-07-2026\n";
+	transactions[transactionsCount].type = "Deposit\n";
+	transactions[transactionsCount].amount = transactions[transactionsCount].amount;
+	
+	transactionsCount++;
+	
+}
+
+void Withdraw() {
+	
+	cout << "\n==================WITHDRAW======================\n";
+	
+	cout << "Enter amount you want to withdraw: ";
+	cin >> transactions[transactionsCount].amount;
+	
+	if(transactions[transactionsCount].amount <= accounts[currentAccount].balance) {
+		accounts[currentAccount].balance -= transactions[transactionsCount].amount;
+		cout << "Successfully withdraw!\n";
+	} else {
+		cout << "Invalid amount!\n";
+	}
+	
+	cout << "The balance is: " << accounts[currentAccount].balance << "\n";
+	
+	transactions[transactionsCount].date = "09-07-2026\n";
+	transactions[transactionsCount].type = "Withdraw\n";
+	transactions[transactionsCount].amount = transactions[transactionsCount].amount;
+	
+	transactionsCount++;
+}
+
+void ViewTransactHistory() {
+	
+	for(int i = 0; i < transactionsCount; i++) {
+		cout << "\n=================VIEW TRANSACTION HISTORY=====================\n";
+		
+		cout << "\nTransaction # " << i + 1 << "\n";
+		cout << "DATE   : " << transactions[i].date << "\n";
+		cout << "TYPE   : " << transactions[i].type << "\n";
+		cout << "AMOUNT : " << transactions[i].amount << "\n";
+		cout << "BALANCE: " << transactions[i].balance << "\n";
+	}
+}
+
+void ChangePin() {
+	int pinInput;
+	cout << "\n=================CHANGE PIN===================\n";
+	
+	cout << "Enter your PIN: ";
+	cin >> pinInput;
+	
+	if(accounts[currentAccount].pin == pinInput) {
+		
+		cout << "Enter New PIN: ";
+		cin >> transactions[transactionsCount].newPin;
+		
+		cout << "Confirm New PIN: ";
+		cin >> transactions[transactionsCount].confirmPin;
+		
+		if(transactions[transactionsCount].newPin == transactions[transactionsCount].confirmPin) {
+			cout << "\nPIN successfully change!\n";
+		} else {
+			cout << "PIN did not match!\n";
+		}
+	} else {
+		cout << "Invalid PIN!!\n";
+	}
+	
+}s
