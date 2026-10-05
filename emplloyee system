@@ -1,0 +1,278 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct Employee {
+	int id, DailyRate, HoursWorked;
+	string name, position;
+	int GrossPay, NetPay;
+	double Deductions;
+};
+
+ Employee employees[100];
+ int employeeCount = 0;
+ 
+ void AddEmployee();
+ void ViewEmployee();
+ void CalculatePayroll();
+ void SearchEmployee();
+ void UpdateEmployee();
+ void DeleteEmployee();
+ 
+ int main () {
+ 	int choice;
+ 	
+ 	cout << "\n==============WELCOME TO EMPLOYEE'S PAYROLL!===============\n";
+ 	cout << "Hello and welcome!\n";
+    cout << "This system is designed to help manage employee records,\n";
+	cout << "calculate salaries, track working hours, and determine gross and net pay accurately.\n";
+    cout << "Please choose an option from the main menu to continue.\n";
+    cout << "Let’s make payroll management simple, organized, and efficient!\n";
+    cout << "Thank you for using the Employee Payroll System.\n";
+    
+    do {
+    	cout << "\n=============================\n";
+    	cout << "\n======EMPLOYEE PAYROLL=======\n";
+    	cout << "\n=============================\n";
+    	cout << "1. Add Employee's\n";
+    	cout << "2. View Employee's\n";
+    	cout << "3. Calculate Payroll\n";
+    	cout << "4. Search Employee's\n";
+    	cout << "5. Update Employee's\n";
+    	cout << "6. Delete Employee's\n";
+    	cout << "7. Exit\n";
+    	cout << "Enter your Choice: ";
+    	cin >> choice;
+    	
+    	switch(choice) {
+    		case 1:
+    			AddEmployee();
+    			break;
+    			
+    			case 2:
+    				ViewEmployee();
+    				break;
+    				
+    				case 3:
+    					CalculatePayroll();
+    					break;
+    					
+    					case 4:
+    						SearchEmployee();
+    						break;
+    						
+    						case 5:
+    							UpdateEmployee();
+    							break;
+    							
+    							case 6:
+    								DeleteEmployee();
+    								break;
+    								
+    								case 7:
+    									cout << "Thank you for using Employee's Payroll System!\n";
+    									break;
+    									
+    									default:
+    										cout << "Invalid Choice!!\n";
+	      	}
+		
+		} while(choice != 7);
+		
+		return 0;
+ }
+ 
+ void AddEmployee() {
+ 	
+ 	
+ 	if(employeeCount >= 100) {
+ 		cout <<"\nEmployee's list is full!\n";
+ 		return;
+	 }
+	 
+	 cout << "\n==========ADD EMPLOYEE==========\n";
+	 
+	 cout << "Enter Employee's ID: ";
+	 cin >> employees[employeeCount].id;
+	 
+	 cin.ignore();
+	 	 
+	 cout << "Enter Employee's Name: ";
+	 getline(cin, employees[employeeCount].name);
+	 
+	 cout << "Enter Employee's Position: ";
+	 getline(cin, employees[employeeCount].position);
+	
+	 
+	 cout << "Enter Your Daily Rate: ";
+	 cin >> employees[employeeCount].DailyRate;
+	 
+	 cout << "Enter Your Worked Hours: ";
+	 cin >> employees[employeeCount].HoursWorked;
+	 
+	 cout << "Enter Your Deductions: ";
+	 cin >> employees[employeeCount].Deductions;
+	 
+	 employees[employeeCount].GrossPay = employees[employeeCount].DailyRate * employees[employeeCount].HoursWorked;
+	 
+	 employees[employeeCount].NetPay = employees[employeeCount].GrossPay - employees[employeeCount].Deductions;
+	 
+	 employeeCount++;
+	 
+	 cout << "\nEmployee Added SuccessFully!\n";
+
+ }
+ 
+ void ViewEmployee() {
+ 	cout << "\n===========VIEW EMPLOYEE'S==============\n";
+ 	
+ 	if(employeeCount == 0) {
+ 		cout << "\nNo Employee's recorded yet\n";
+ 		return;
+	 }
+	 
+	 for(int i = 0; i < employeeCount; i++) {
+		 
+	 	cout << "\nEmployee's # " << i + 1 << "\n";
+	 	cout << "Employee's ID           : " << employees[i].id << "\n";
+	 	cout << "Employee's Name         : " << employees[i].name << "\n";
+	 	cout << "Employee's Position     : " << employees[i].position << "\n";
+	 	cout << "Employee's Daily Rate   : " << employees[i].DailyRate << "\n";
+	 	cout << "Employee's Hours Worked : " << employees[i].HoursWorked << "\n";
+	 	cout << "Employee's Gross Pay    : " << employees[i].GrossPay << "\n";
+	 	cout << "Employee's Deductions   : " << employees[i].Deductions << "\n";
+	 	cout << "Employee's Net Pay      : " << employees[i].NetPay << "\n";
+
+	}
+ }
+ 
+ void CalculatePayroll() {
+ 	cout << "\n=========CALCULATE YOUR PAYROLL=============\n";
+ 	
+ 	if(employeeCount == 0) {
+ 		cout << "\nNo Employee's Recorded Yet!\n";
+ 		return;
+	 }
+ 	
+ 	for(int i = 0; i < employeeCount; i++) {
+ 		
+ 		employees[i].GrossPay = employees[i].DailyRate * employees[i].HoursWorked;
+ 		employees[i].NetPay = employees[i].GrossPay - employees[i].Deductions;
+ 		
+ 		cout << "Employee's Name         : " << employees[i].name << "\n";
+ 		cout << "Employee's Daily Rate   : " << employees[i].DailyRate << "\n";
+ 		cout << "Employee's Hours Worked : " << employees[i].HoursWorked << "\n";
+ 		cout << "Employee's Gross Pay    : " << employees[i].GrossPay << "\n";
+ 		cout << "Employee's Net Pay      : " << employees[i].NetPay << "\n";
+ 		
+	 }
+ 	
+ }
+ 
+ void SearchEmployee() {
+ 	int searchID;
+ 	bool found = false;
+ 	
+ 	cout << "\n==========SEARCH EMPLOYEE'S=============\n";
+ 	
+ 	cout << "Enter Employee's ID: ";
+ 	cin >> searchID;
+ 	
+ 	for(int i = 0; i < employeeCount; i++) {
+ 		if(employees[i].id == searchID) {
+ 			
+ 			cout << "\nEmployee's Found!\n";
+ 			cout << "Employee's ID        : " << employees[i].id << "\n";
+	 	    cout << "Employee's Name      : " << employees[i].name << "\n";
+	 	    cout << "Employee's Position  : " << employees[i].position << "\n";
+	 	    cout << "Employee's Gross Pay : " << employees[i].GrossPay << "\n";
+	 	    cout << "Employee's Deductions: " << employees[i].Deductions << "\n";
+	 	    cout << "Employee's Net Pay   : " << employees[i].NetPay << "\n";
+	 	    
+	 	    	found = true;
+	 	    	break;
+	 	    	
+		 }
+	 }
+	 if(!found) {
+	 	cout << "\nEmployee's Not Found!\n";
+	 }
+ }
+ 
+ void UpdateEmployee() {
+ 	int searchID;
+ 	bool found = false;
+ 	
+ 	cout << "\n===========UPDATE EMPLOYEE'S=============\n";
+ 	
+ 	cout << "Enter Employee's ID: ";
+ 	cin >> searchID;
+ 	
+ 	for(int i = 0; i < employeeCount; i++) {
+ 		if(employees[i].id == searchID) {
+ 			cout << "\nEmployee's Found!\n";
+ 			
+ 			cin.ignore();
+ 			
+ 			cout << "Enter your New Name: ";
+ 			getline(cin, employees[i].name);
+ 			
+ 			cout << "Enter your New Position: ";
+ 			getline(cin, employees[i].position);
+ 			
+ 			cout << "Enter your New Daily Rate: ";
+ 			cin >> employees[i].DailyRate;
+ 			
+ 			cout << "Enter your New Hours Worked: ";
+ 			cin >> employees[i].HoursWorked;
+ 			
+ 			cout << "Enter your New Gross Pay: ";
+ 			cin >> employees[i].GrossPay;
+ 			
+ 			cout << "Enter your New Net Pay: ";
+ 			cin >> employees[i].NetPay;
+ 			
+ 			cout << "\nEmployee's Update SuccessFully!\n";
+ 			
+ 			found = true;
+ 			break;
+ 			
+		 }
+	 } 
+	 if(!found) {
+	 	cout << "\nEmployee's Not Found!\n";
+	 }
+ 	
+ }
+ 
+ void DeleteEmployee() {
+ 	int searchID;
+ 	bool found = false;
+ 	
+ 	cout << "\n========DELETE EMPLOYEE'S==========\n";
+ 	
+ 	cout << "Enter Employee's ID to delete: ";
+ 	cin >> searchID;
+ 	
+ 	for(int i = 0; i < employeeCount; i++) {
+ 		if(employees[i].id == searchID) {
+ 			
+ 			
+ 			for(int j = i;  j < employeeCount - 1; j++) {
+ 				employees[j] = employees[j + 1];
+			 }
+			 
+			 employeeCount--;
+			 
+			 cout << "\nEmployee's Deleted SuccessFully!\n";
+			 
+			 found = true;
+			 break;
+		 }
+	 }
+	 if(!found) {
+	 	cout << "\nEmployee's Not Found!\n";
+	 }
+ }
+ 
