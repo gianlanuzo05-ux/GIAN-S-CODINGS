@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int sumofallNaturals(int number);
+int main() {
+	int number, total;
+	
+	cout << "Enter a Number: ";
+	cin >> number;
+	
+	total = sumofallNaturals(number); 
+	
+	for(int i = 1; i <= number; i++) { 
+		cout << i; 
+		if(i < number) {
+		cout << "+";
+	}
+}
+	cout << "=" << total;
+	return 0;
+}
+
+int sumofallNaturals(int number) { 
+	int total = 0;
+	for(int i = 1; i <= number; i++) {
+		total = total + i;
+	}
+	return total;
+}
