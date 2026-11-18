@@ -1,0 +1,284 @@
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <cctype>
+#include <string>
+
+using namespace std;
+
+struct Order {
+	string name;
+	char size;
+	int item;
+	int quantity;
+	double price;
+};
+
+struct Drink {
+	string name;
+	int priceM;
+	int priceL;
+	int soldM;
+	int soldL;
+};
+
+const int Milktea = 5;
+const int Coffee = 5;
+const int Drinks = Milktea + Coffee;
+
+Drink milkteaMenu[Milktea] = {
+	{"Strawberry Matcha",  60, 85, 0, 0},
+	{"Cookies and Cream",  60, 85, 0, 0},
+	{"Red Velvet",         60, 85, 0, 0},	
+	{"Winter Melon",       60, 85, 0, 0},
+	{"Dark Chocolate",     60, 85, 0, 0}
+};
+
+Drink coffeeMenu[Coffee] = {
+	{"Americano",         65, 90},
+	{"Cappuccino",        65, 90},
+	{"Espresso",          65, 90},
+	{"Macchiato",         65, 90},
+	{"Mocha",             65, 90}
+};
+
+int orderCount = 0;
+Order orders[200];
+
+Drink& getDrink(int item);
+void printMenuLine(int number, Drink &d);
+void showMenu();
+void addOrder(int item, char size, int qty);
+void computeTotal(double &total);
+void showReceipt(double total, double cash);
+void checkSales();
+
+int main() {
+	int choice, quantity, one;
+	int  proceed = 0;
+	char size, add;
+	string userChoice;
+	double total = 0;
+	double cash;
+	
+	do {
+		if(proceed == 0) {
+			orderCount = 0;
+			showMenu();
+			cout << "Enter Choice: ";
+			cin >> userChoice;
+			
+			if(userChoice == "A" || userChoice == "a") {
+				checkSales();
+				proceed = 6;
+			} else {
+				choice = atoi(userChoice.c_str(	));
+				
+				if(choice < 1 || choice > Drinks) {
+					cout << "Invalid Choice!!\n";
+					system("pause");
+				} else {
+					proceed = 1;
+				}
+			}
+			
+		}
+		else if(proceed == 1) {
+			cout << "Select Cup size (M/L): ";
+			cin >> size;
+			size = toupper(size);
+			
+			if(size != 'M' && size != 'L') {
+				cout << "Wrong size. Please select M or L only.\n";
+			} else {
+				proceed = 2;
+			}
+		}
+		else if(proceed == 2) {
+			cout << "Enter Quantity: ";
+			cin >> quantity;
+			
+			if(quantity < 1) {
+				cout << "Invalid Quantity!!\n";
+			} else {
+				addOrder(choice - 1, size, quantity);
+				proceed = 3;
+			}
+		}
+		else if(proceed == 3) {
+			cout << "\nAdd Order (Y/N): ";
+			cin >> add;
+			cout << endl;
+			add = toupper(add);
+			
+			if(add == 'Y') {
+				proceed = 4;
+			}
+			else if(add == 'N') {
+				computeTotal(total);
+				cout << fixed << setprecision(2);
+				cout << "Total: " << total << "\n";
+				cout << endl;
+				proceed = 5;
+			} else {
+				cout << "Wrong input. Please enter Y and N only.";
+			}
+			
+		}
+		else if(proceed == 4) {
+			cout << "Enter Choice: ";
+			cin >> userChoice;
+			choice = atoi(userChoice.c_str());
+			
+			if(choice < 1 || choice > Drinks) {
+				cout << "Invalid Choice!!\n";
+			} else {
+				proceed = 1;
+			}
+			
+		}
+		else if(proceed == 5) {
+			cout << "Enter Cash: ";
+			cin >> cash;
+			
+			if(cash < total) {
+				cout << "Invalid Cash!!\n";
+			} else {
+				showReceipt(total, cash);
+				proceed = 6;
+			}
+		}
+		else if(proceed == 6) {
+			cout << "\nPress 1 to go back to Main Menu...... ";
+			cin >> one;
+			
+			if(one == 1) {
+				proceed = 0;
+			}
+		}
+	}while(true);
+	
+	return 0;
+}
+
+Drink& getDrink(int item) {
+	if(item < Milktea) {
+		return milkteaMenu[item]; 
+	} else {
+		return coffeeMenu[item - Milktea];
+	}
+}
+
+void printMenuLine(int number, Drink &d) {
+	cout << "\t" << right << setw(2) << number << "." << left << setw(30) << d.name << "M - " << d.priceM << "  L - " << d.priceL << "\n";
+}
+
+void showMenu() {
+	system("cls");
+	
+	cout << "\n============================================================================================================\n";
+	cout << "=                                                                                                          =\n";
+	cout << "============================================================================================================\n";
+	cout << "                                      **********SHOW MENU**********                                         \n";
+	cout << "\tName:                             Price:\n";
+	
+	cout << "\t===MILKTEA MENU===\n";
+	for(int i = 0; i < Milktea; i++) {
+		printMenuLine(i + 1, milkteaMenu[i]);
+	}
+	
+	cout << "\t===COFFEE MENU===\n";
+	for(int i = 0; i < Coffee; i++) {
+		printMenuLine(Milktea + i + 1, coffeeMenu[i]);
+	}
+	
+	cout << "\n";
+	cout << "\t[A] Check Sales";
+	cout << "\n";
+	cout << "\n";
+}
+
+void addOrder(int item, char size, int quantity) {
+	int drinkPrice;
+	
+	if(size == 'M') {
+		drinkPrice = getDrink(item).priceM;
+	} else {
+		drinkPrice = getDrink(item).priceL;
+	}
+	
+	orders[orderCount].item = item;
+	orders[orderCount].size = size;
+	orders[orderCount].quantity = quantity;
+	orders[orderCount].price = drinkPrice * quantity;
+	orderCount++;
+}
+
+void computeTotal(double &total) {
+	total = 0;
+	for(int i = 0; i < orderCount; i++) {
+		total = total + orders[i].price;	
+	}
+}
+
+void showReceipt(double total, double cash) {
+	system("cls");
+	
+	cout << fixed << setprecision(2);
+	cout << "\n================================================================================\n";
+	cout << "=                                                                              =\n";
+	cout << "================================================================================\n";
+	cout << left << setw(20) << "Quantity" << setw(25) << "Name" << right << setw(13) << "Size" << setw(20) << "Price" << "\n";
+	
+	for(int i = 0; i < orderCount; i++) {
+		cout << left << setw(12) << orders[i].quantity << setw(25) << getDrink(orders[i].item).name << right<< setw(19) << orders[i].size << setw(22) << orders[i].price << "\n";
+		
+		if(orders[i].size == 'M') {
+			getDrink(orders[i].item).soldM = getDrink(orders[i].item).soldM + orders[i].quantity;
+		} else {
+			getDrink(orders[i].item).soldL = getDrink(orders[i].item).soldL + orders[i].quantity;
+		}
+	}
+	
+	cout << "================================================================================\n";
+	cout << left << setw(12) << "Total : " << right << setw(67) << total << "\n";
+	cout << left << setw(12) << "Cash  : " << right << setw(67) << cash << "\n";
+	cout << left << setw(12) << "Change: " << right << setw(67) << cash - total << "\n";
+	cout << "================================================================================\n";
+	cout << "                                 THANK YOU FOR ORDERING!                         \n";
+	cout << "                                  COME AGAIN NEXT TIME!                          \n";
+    
+}
+
+void checkSales() {
+	double totalSales = 0;
+	double amount;
+	
+	system("cls");
+	cout << fixed << setprecision(2);
+	cout << "\n==============================================================\n";
+	cout << "=                                                            =\n";
+	cout << "==============================================================\n";
+	cout << left << setw(28) << "NAME" << setw(12) << "QUANTITY" << setw(10) << "SIZE" << right << setw(12) << "TOTAL" << "\n";
+	
+	for(int i = 0; i < Drinks; i++) {
+		Drink &d = getDrink(i);
+		
+		if(d.soldM > 0) {
+			amount = d.priceM * d.soldM;
+			cout << left << setw(28) << d.name << setw(12) << d.soldM << setw(10) << "M" << right << setw(12) << amount << "\n";
+			totalSales = totalSales + amount;
+		}
+		
+		if(d.soldL > 0) {
+			amount = d.priceL * d.soldL;
+			cout << left << setw(28) << d.name << setw(12) << d.soldL << setw(10) << "L" << right << setw(12) << amount << "\n";
+			totalSales = totalSales + amount;
+		}
+	}
+	cout << "==============================================================\n";
+	cout << left << setw(47) << "TOTAL SALES: " << right << setw(15) << totalSales << "\n";
+	
+}
+
+
